@@ -14,6 +14,7 @@
     "yess": "^1.2.3"
   },
   "devDependencies": {
+    "eslint": "^8.52.0",
     "jest": "^29.7.0",
     "prettier": "3.0.3"
   },

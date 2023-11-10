@@ -1,15 +1,44 @@
-const mdLinks = require('./mdLinks'); // Reemplaza './mdLinks' con la ruta correcta a tu archivo
+const readFiles = require("./lib/readFile.js");
+const isMarkdownFile = require("./lib/isMarkdown.js");
+const extractLinks = require("./lib/contentLinks.js");
 
-// Prueba básica para verificar si la función mdLinks resuelve correctamente
-test('mdLinks resuelve correctamente', () => {
-  return mdLinks('./lib/Readme.md').then((links) => {
-    expect(links).toEqual(expect.arrayContaining([
-      expect.objectContaining({ href: expect.any(String), text: expect.any(String), file: expect.any(String) })
-    ]));
+
+//Test isMarkdownFile
+describe("test isMarkdownFile", () => {
+  it("isMarkdownFile must return me a boolean", () => {
+    expect(isMarkdownFile("./docs")).toBe(false);
   });
 });
 
-// Prueba para verificar si se maneja correctamente un archivo que no es de tipo Markdown
-test('mdLinks rechaza archivos que no son Markdown', () => {
-  return expect(mdLinks('./lib/NotMarkdown.txt')).rejects.toEqual('El archivo no es de tipo Markdown');
+describe("test extractLinks", () => {
+  it("extractLinks must return me an array with links ", () => {
+    const text = `Hola Mundo!  
+    ![prueba](https://www.youtube.com/watch?v=_2VHVIJCtGk&list=PL3aEngjGbYhnrRfZKMxzn79qdgPx)
+    ![prueba](https://www.youtube.com/watch?v=J3QUbmNk3Esq&AL7OWM&index=5)`;
+    const result = [
+      {
+        href: "https://www.youtube.com/watch?v=_2VHVIJCtGk&list=PL3aEngjGbYhnrRfZKMxzn79qdgPx",
+        text: "prueba",
+        file: "ruta",
+      },
+      {
+        href: "https://www.youtube.com/watch?v=J3QUbmNk3Esq&AL7OWM&index=5",
+        text: "prueba",
+        file: "ruta",
+      },
+    ];
+expect (extractLinks (text, 'ruta')).toEqual(result)
+
+  });
+});
+
+describe ('test readFiles', () =>{
+it ('readFiles must be return me a text', () => {
+readFiles('./lib/Readme.md')
+  .then((result) => {
+    expect(result).toEqual(`Hola Mundo!
+
+    ![prueba](https://www.youtube.com/watch?v=yxLOBFXSkv0&pp=ygUNdmVyY2VsIGRlcGxveQ%3D%3D)`)
+});
+});
 });

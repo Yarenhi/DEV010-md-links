@@ -1,6 +1,6 @@
-const readFiles = require("./lib/readFile.js");
-const isMarkdownFile = require("./lib/isMarkdown.js");
-const extractLinks = require("./lib/contentLinks.js");
+const readFiles = require("../lib/readFile.js");
+const isMarkdownFile = require("../lib/isMarkdown.js");
+const extractLinks = require("../lib/contentLinks.js");
 
 
 //Test isMarkdownFile
